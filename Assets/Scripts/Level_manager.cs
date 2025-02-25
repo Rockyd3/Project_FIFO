@@ -7,7 +7,7 @@ public class Level_manager : MonoBehaviour
     public static Level_manager instance;
 
     //FIXME: Add this list to a game_constants file
-    List<string> types = new List<string>() {"Earth", "Fire", "Ice", "Wind"};
+    List<string> types = new List<string>() { "Earth", "Fire", "Ice", "Wind" };
     int Max_pattern_len = 3;
 
     List<string> Pattern_record = new List<string>();
@@ -32,7 +32,7 @@ public class Level_manager : MonoBehaviour
         List<(int, string)> Temp_3 = new List<(int, string)>() {
             (121, "Sandwich"), (111, "Three of a kind")
         };
-        
+
         //Add all of the Patterns to the Patterns double list
         Patterns.Add(Temp_1);
         Patterns.Add(Temp_2);
@@ -42,61 +42,74 @@ public class Level_manager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetButtonDown("Dummy")){
+        if (Input.GetButtonDown("Dummy"))
+        {
             Dummy();
         }
 
         // Key inputs for testing patterns- feel free to delete/ignore
-        if(Input.GetKeyDown("1")){
+        if (Input.GetKeyDown("1"))
+        {
             UpdatePattern("Earth");
         }
-        if(Input.GetKeyDown("2")){
+        if (Input.GetKeyDown("2"))
+        {
             UpdatePattern("Fire");
         }
-        if(Input.GetKeyDown("3")){
+        if (Input.GetKeyDown("3"))
+        {
             UpdatePattern("Ice");
         }
-        if(Input.GetKeyDown("4")){
+        if (Input.GetKeyDown("4"))
+        {
             UpdatePattern("Wind");
         }
     }
 
-    void Dummy(){
+    void Dummy()
+    {
         Debug.Log("Dummy key pressed");
     }
 
-    void UpdatePattern(string type){
+    void UpdatePattern(string type)
+    {
         // Adds a type to the pattern record. Should be called whenever an enemy is killed.
         // This then checks the Pattern Record to see if any Patterns have occurred.
         AddToPattern(type);
         int Cur_Pattern = TypeToChar();
         print(Cur_Pattern);
         string success = CheckPatterns(Cur_Pattern);
-        if (success != null){
+        if (success != null)
+        {
             print(success);
         }
     }
 
-    void AddToPattern(string type){
+    void AddToPattern(string type)
+    {
         //Add the passed type to the pattern_record
         Pattern_record.Add(type);
-        if(Pattern_record.Count > Max_pattern_len){
+        if (Pattern_record.Count > Max_pattern_len)
+        {
             Pattern_record.Remove(Pattern_record[0]);
         }
         int temp = TypeToChar();
     }
 
-    int TypeToChar(){
+    int TypeToChar()
+    {
         //Translates the 5 most recent slain enemy types to a 5 int number to compare with patterns
         int ret = 0;
         int counter = 1;
 
         int c = Pattern_record.Count;
-        Dictionary <string, int> Translations = new Dictionary<string, int>();
+        Dictionary<string, int> Translations = new Dictionary<string, int>();
         //Iterate from most recent to oldest of saved types
-        for (int i = c-1; i >= 0; i--){
+        for (int i = c - 1; i >= 0; i--)
+        {
             string t = Pattern_record[i];
-            if(!Translations.ContainsKey(t)){
+            if (!Translations.ContainsKey(t))
+            {
                 Translations.Add(t, counter);
                 counter++;
             }
@@ -105,18 +118,22 @@ public class Level_manager : MonoBehaviour
         return ret;
     }
 
-    string CheckPatterns(int Seq){
-        int s = Pattern_record.Count -1;
+    string CheckPatterns(int Seq)
+    {
+        int s = Pattern_record.Count - 1;
         //Loop through all patterns of size and smaller
-        for (int l=s; l>=0; l--){ //Loop through pattern sizes
-            for (int i=0; i < Patterns[l].Count; i++) {
-                if (Patterns[l][i].Item1 == Seq){
+        for (int l = s; l >= 0; l--)
+        { //Loop through pattern sizes
+            for (int i = 0; i < Patterns[l].Count; i++)
+            {
+                if (Patterns[l][i].Item1 == Seq)
+                {
                     //Found Matching Pattern! Return the name
                     return Patterns[l][i].Item2;
                 }
             }
             //Go to smaller pattern if no pattern found in that list.
-            Seq = (int)(Seq/10);
+            Seq = (int)(Seq / 10);
         }
 
         return null;

@@ -15,9 +15,15 @@ public class Cooldown_manager : MonoBehaviour
     // Units are seconds
     [SerializeField]
     private float dashCooldownLength;
-
     private float dashCooldownCompleteTime;
     private bool isDashOnCooldown;
+
+    [SerializeField]
+    private float fireProjectileCooldownLength;
+    private float fireProjectileCooldownCompleteTime;
+    private bool isFireProjectileOnCooldown;
+
+    
 
     // Start is called before the first frame update
     void Start()
@@ -31,6 +37,10 @@ public class Cooldown_manager : MonoBehaviour
         if (isDashOnCooldown && Time.time >= dashCooldownCompleteTime) {
             isDashOnCooldown = false;
         }
+
+        if (isFireProjectileOnCooldown && Time.time >= fireProjectileCooldownCompleteTime) { 
+            isFireProjectileOnCooldown = false;
+        }
     }
 
     // Called when dash executed
@@ -39,6 +49,12 @@ public class Cooldown_manager : MonoBehaviour
         // Put the dash on cooldown and set the time for when it should come off cooldown
         isDashOnCooldown = true;
         dashCooldownCompleteTime = Time.time + dashCooldownLength;
+    }
+
+    public void UpdateFireProjectileCooldown()
+    {
+        isFireProjectileOnCooldown = true;
+        fireProjectileCooldownCompleteTime = Time.time + fireProjectileCooldownLength;
     }
 
     // Getters, setters
@@ -58,5 +74,23 @@ public class Cooldown_manager : MonoBehaviour
     {
         get { return isDashOnCooldown; }
         set { isDashOnCooldown = value; }
+    }
+
+    public float FireProjectileCooldownLength
+    {
+        get { return fireProjectileCooldownLength; }
+        set {  fireProjectileCooldownLength = value; }
+    }
+
+    public float FireProjectileCooldownCompleteTime
+    {
+        get { return fireProjectileCooldownCompleteTime; }
+        set { fireProjectileCooldownCompleteTime = value; }
+    }
+
+    public bool IsFireProjectileOnCooldown
+    {
+        get { return isFireProjectileOnCooldown; }
+        set { isFireProjectileOnCooldown = value; }
     }
 }

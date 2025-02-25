@@ -30,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 684560450688701559}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.85, y: 0.45, z: -7.3}
+  m_LocalPosition: {x: 5.85, y: 3, z: -7.3}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -61,6 +61,9 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -140,15 +143,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac50cd37c06b4784daaf1a766555ef01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  labelPrefab: {fileID: 8193600949555722764, guid: f09cf8d572dd4b54793e9c44cd70e054, type: 3}
+  labelPrefab: {fileID: 1013203243436421646, guid: cc2029d4bce78204bab7dd4a9b5749eb, type: 3}
   labelText: (E) Buy
   labelRotationXYZ:
-  - 0
+  - 45
   - -135
   - 0
   labelPositionOffsetXYZ:
   - 0
-  - 0.75
+  - 1
   - 0
   labelTriggerHitboxSize:
   - 2

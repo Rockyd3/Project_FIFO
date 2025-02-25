@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 
 public class Shop_interaction_manager : MonoBehaviour
@@ -34,7 +35,7 @@ public class Shop_interaction_manager : MonoBehaviour
     {
         // Instantiate the UI label with some text, rotation, and position, then make it invisible
         label = Instantiate(labelPrefab, transform.position, Quaternion.identity);
-        label.GetComponent<TextMesh>().text = LabelText;
+        label.transform.Find("Panel").gameObject.transform.Find("TMP").gameObject.GetComponent<TextMeshProUGUI>().text = labelText;
         label.transform.rotation = Quaternion.Euler(labelRotationXYZ[0], labelRotationXYZ[1], labelRotationXYZ[2]);
         label.transform.position += new Vector3(labelPositionOffsetXYZ[0], labelPositionOffsetXYZ[1], labelPositionOffsetXYZ[2]);
         label.SetActive(false);

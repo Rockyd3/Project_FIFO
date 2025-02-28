@@ -9,6 +9,8 @@ TagManager:
   - Projectile
   - ItemLabel
   - ShopItemLabelLines
+  - Upgrade
+  - UI
   layers:
   - Default
   - TransparentFX
@@ -22,7 +24,7 @@ TagManager:
   - Wall
   - HiddenWall
   - MainCamera
-  - 
+  - Upgrade
   - 
   - 
   - 

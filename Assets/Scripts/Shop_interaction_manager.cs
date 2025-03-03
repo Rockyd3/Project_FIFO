@@ -18,12 +18,15 @@ public class Shop_interaction_manager : MonoBehaviour
     [SerializeField]
     private string labelTextHotkeyInfo = "(E) Buy";
     [SerializeField]
-    private string labelTextHotkeyInfoColor = "#F0FFFF";
+    private string labelTextHotkeyInfoColor = "#F0FFFF"; // Pale, electric blue
+    [SerializeField]
+    private int labelTextItemCost = 0;
+    [SerializeField]
+    private string labelTextItemCostColor = "#FFDF00"; // Gold yellow
     [SerializeField]
     private string labelTextItemName = "Default Name";
     [SerializeField]
     private string labelTextItemDesc = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla facilisi. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Donec eget justo at ligula vehicula tincidunt. Sed auctor, velit nec efficitur, nunc sapien";
-    
     // Position and rotation of UI label
     [SerializeField]
     private float[] labelRotationXYZ;
@@ -38,6 +41,7 @@ public class Shop_interaction_manager : MonoBehaviour
     private GameObject label;
 
     private bool isShopActive = false;
+    private bool bought = false;
 
     // LineRenderers for the lines that connect to each corner of the label
     // lrBl = "LineRenderer Bottom Left Corner", etc.
@@ -58,9 +62,18 @@ public class Shop_interaction_manager : MonoBehaviour
     // The position of the center point of the top face of this ShopItem
     private Vector3 topFaceCenterPos;
 
+    // The upgrade associated with this ShopItem.
+    public Upgrade upgrade;
+
     // Start is called before the first frame update
     void Start()
     {
+        // If we are given an upgrade object, then use that object's Name and Description for the label
+        if (upgrade != null) { 
+            labelTextItemName = upgrade.Name;
+            labelTextItemDesc = upgrade.Desc;
+            labelTextItemCost = upgrade.Cost;
+        }
         // Instantiate the UI label with some text, rotation, and position
         label = Instantiate(labelPrefab, transform.position, Quaternion.identity);
         label.name = label.name + "_" + gameObject.name.Substring(gameObject.name.Length - 1, 1);
@@ -68,6 +81,7 @@ public class Shop_interaction_manager : MonoBehaviour
         tmpText.text = MakeFullFormattedTextString();
         label.transform.rotation = Quaternion.Euler(labelRotationXYZ[0], labelRotationXYZ[1], labelRotationXYZ[2]);
         label.transform.position += new Vector3(labelPositionOffsetXYZ[0], labelPositionOffsetXYZ[1], labelPositionOffsetXYZ[2]);
+        label.transform.SetParent(gameObject.transform);
 
         // Resize the label's panel accordingly
         Item_label_resize.instance.UpdateSize();
@@ -93,7 +107,7 @@ public class Shop_interaction_manager : MonoBehaviour
         Renderer cubeRenderer = GetComponent<MeshRenderer>();
         Vector3 center = cubeRenderer.bounds.center;
         float height = cubeRenderer.bounds.extents.y;
-        topFaceCenterPos = center + new Vector3(0, height, 0);
+        topFaceCenterPos = center + new Vector3(0, height + 0.1f, 0);
 
         // Assign the LineRenderers for the lines to the corners of the label, and toggle off rendering for now
         lrBl = gameObject.transform.Find("LineRendererBottomLeft").GetComponent<LineRenderer>();
@@ -112,9 +126,9 @@ public class Shop_interaction_manager : MonoBehaviour
     // Called when another collider enters the trigger hitbox
     private void OnTriggerEnter(Collider other) 
     {
-        // If the other collider is the player:
+        // If the other collider is the player, and the item has not already been bought:
         // Make the UI label visible and allow the player to interact with this instance's gameObject; draw the lines
-        if (other.gameObject.tag == "Player") 
+        if (other.gameObject.tag == "Player" && !bought) 
         {
             label.SetActive(true);
             Player_input_manager.instance.Interactable = gameObject;
@@ -126,9 +140,9 @@ public class Shop_interaction_manager : MonoBehaviour
     // Called when another collider exits the trigger hitbox
     private void OnTriggerExit(Collider other) 
     {
-        // If the other collider is the player:
+        // If the other collider is the player, and the item has not already been bought:
         // Make the UI label invisible and disallow the player to interact with this instance's gameObject; make the lines invisble
-        if (other.gameObject.tag == "Player")
+        if (other.gameObject.tag == "Player" && !bought)
         {
             label.SetActive(false);
             isShopActive = false;
@@ -139,17 +153,22 @@ public class Shop_interaction_manager : MonoBehaviour
     // Called when the player interacts with this instance's gameObject
     public void buy()
     {
-        // Destroys this instance's gameObject
-        Destroy(label);
-        Destroy(gameObject);
+        // Stops this gameObject's attempts to interact with the label
+        bought = true;
+        // Destroys all children of this instance's gameObject
+        foreach (Transform child in transform)
+        {
+            Destroy(child.gameObject);
+        }
     }
 
     // Makes a single formatted string from this ShopItem's hotkey info, name, and description strings
     public string MakeFullFormattedTextString()
     {
         string text = string.Empty;
-        text += "<line-height=120%><b><color=" + labelTextHotkeyInfoColor + ">" + labelTextHotkeyInfo + "</color></b>\n";
-        text += "<line-height=90%><b>" + labelTextItemName + "</b>\n";
+        text += "<line-height=90%><b><color=" + labelTextHotkeyInfoColor + ">" + labelTextHotkeyInfo + "</color></b>\n";
+        text += "<line-height=125%><b><size=75%><color=" + labelTextItemCostColor + "> Cost: " + labelTextItemCost.ToString() + " Coins</color></size></b>\n";
+        text += "<line-height=95%><b>" + labelTextItemName + "</b>\n";
         text += "<i><size=75%>" + labelTextItemDesc + "</size></i>";
         return text;
     }

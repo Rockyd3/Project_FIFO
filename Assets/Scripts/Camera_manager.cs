@@ -19,10 +19,10 @@ public class Camera_manager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Cursor.lockState = CursorLockMode.Confined; 
         GameObject p = GameObject.FindWithTag("Player");
         if (p != null) {
             player = p;
-            Debug.Log("Player found");
         }
     }
 

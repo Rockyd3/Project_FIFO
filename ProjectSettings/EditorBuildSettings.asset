@@ -11,5 +11,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Basic Shop Room.unity
     guid: 1ba1093b6c8a7a641b17aa006ddfa4df
+  - enabled: 1
+    path: Assets/Scenes/Menu Room.unity
+    guid: f94b15bab3f6a4bc39fad1dec0820e85
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0

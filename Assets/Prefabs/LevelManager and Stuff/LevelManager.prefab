@@ -47,6 +47,7 @@ MonoBehaviour:
   isPaused: 0
   mainUIPrefab: {fileID: 6993848563969293405, guid: 4b21b0de48a90fa44a02f7e65060e2f3, type: 3}
   pauseMenuUIPrefab: {fileID: 3825415695463233874, guid: 73fe6a16f8d22f84493bf8070f2dfb56, type: 3}
+  musicManagerPrefab: {fileID: 2623831383503118466, guid: cae6471539e67634faddcb1e02a670a0, type: 3}
   upgradePrefab: {fileID: 4524767290060870829, guid: a7ed141474d227344ac9614b1cd31c3a, type: 3}
   healthBar: {fileID: 0}
   T_Currency: {fileID: 0}

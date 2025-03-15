@@ -1131,6 +1131,10 @@ PrefabInstance:
       propertyPath: Currency
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3203375570371492845, guid: 4201026a094fdde4786da0df2069e0c2, type: 3}
+      propertyPath: musicManagerPrefab
+      value: 
+      objectReference: {fileID: 2623831383503118466, guid: cae6471539e67634faddcb1e02a670a0, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1880,6 +1884,6 @@ SceneRoots:
   - {fileID: 645881728}
   - {fileID: 1803580481}
   - {fileID: 445054251}
-  - {fileID: 1461594897}
   - {fileID: 593657333}
   - {fileID: 1272629138}
+  - {fileID: 1461594897}

@@ -21,6 +21,7 @@ public class Level_manager : MonoBehaviour
     [Header("UI")]
     [SerializeField] private GameObject mainUIPrefab;
     [SerializeField] private GameObject pauseMenuUIPrefab;
+    [SerializeField] private GameObject musicManagerPrefab;
     private GameObject pauseMenuUI;
     private Button resumeButton;
     private Button pauseButton;
@@ -35,6 +36,7 @@ public class Level_manager : MonoBehaviour
 
 
     public float UpgradeIconUnplugOffset; // how far the upgrade UI icons "unplug" when you select them
+    [System.NonSerialized] public GameObject MusicManager;
 
 
     //FIXME: Add this list to a game_constants file
@@ -115,6 +117,7 @@ public class Level_manager : MonoBehaviour
     { 
         // Give self 0 coins to set HUD currency
         GainCoin(0);
+        MusicManager = Instantiate(musicManagerPrefab);
 
         // FIXME: Setting up the Patterns List should be move to gameconstants when one exists.
         //Create lists for all of the Patterns
@@ -298,6 +301,7 @@ public class Level_manager : MonoBehaviour
     {
         isPaused = true;
         pauseMenuUI.SetActive(true); // Show menu
+        MusicManager.GetComponent<MusicManager>().AudioSource.Pause();
         Time.timeScale = 0f; // Pause game
     }
 
@@ -305,6 +309,7 @@ public class Level_manager : MonoBehaviour
     {
         isPaused = false;
         pauseMenuUI.SetActive(false); // Hide menu
+        MusicManager.GetComponent<MusicManager>().AudioSource.Play();
         Time.timeScale = 1f; // Resume game
     }
 
@@ -452,7 +457,7 @@ public class Level_manager : MonoBehaviour
             case "Precision":
                 precisionUpgradeModifier += precisionUpgradeModifierValue;
                 upgrade.N = precisionUpgradeModifier;
-                break;
+                break;                
             default:
                 Debug.Log("Modifier not found for upgrade with name: \"" + upgrade.Name + "\"");
                 break;

@@ -77,11 +77,30 @@ public class Level_manager : MonoBehaviour
 
     // Upgrade modifiers indicate the amount of effect an upgrade actually applies during runtime
     public int precisionUpgradeModifier = 0;
+    public int hardwareAccelUpgradeModifier = 0;
+    public int twoBirdsUpgradeModifier = 0;
+    public int fortifiedUpgradeModifier = 0;
+    public int bootUpUpgradeModifier = 15;
+    public int spiceLifeUpgradeModifier = 0;
+    public int gitRestoreUpgradeModifier = 0;
+    public int bloodthirstyUpgradeModifier = 5;
+    public int greedyUpgradeModifier = 0;
+    public int thornsUpgradeModifier = 0;
+
 
     // Upgrade values are the fixed amount that the upgrade should affect by
     // FIXME: add all upgrade values to game_constants file
     [System.NonSerialized]
     public int precisionUpgradeModifierValue = 3;
+    public int hardwareAccelUpgradeModifierValue = 10;
+    public int twoBirdsUpgradeModifierValue = 10;
+    public int fortifiedUpgradeModifierValue = 10;
+    public int bootUpUpgradeModifierValue = 10;
+    public int spiceLifeUpgradeModifierValue = 1;
+    public int gitRestoreUpgradeModifierValue = 10;
+    public int bloodthirstyUpgradeModifierValue = 1;
+    public int greedyUpgradeModifierValue = 5;
+    public int thornsUpgradeModifierValue = 10;
 
     private void Awake() //Makes levelmanager callable in any script: Level_manager.instance.[]
     {
@@ -153,15 +172,15 @@ public class Level_manager : MonoBehaviour
         // See the constructor for the Upgrade class in 'Upgrade_manager.cs' to find detailed info about parameters.
         // Only one upgrade sprite asset is finished (Precision, as of 02/28), so all others will use the default
         Upgrades.Add(new Upgrade("Precision", "Deal +[X] extra damage on every hit (currently adding [N] damage)", (float)precisionUpgradeModifierValue, (float)precisionUpgradeModifier, "", 0, 5, "Assets/Sprites/Upgrades/dmgUpgrade.png"));
-        Upgrades.Add(new Upgrade("Hardware Acceleration", "Increase dash range by [X]%", 10.0f, 0.0f, "", 0, 5, "Assets/Sprites/Upgrades/upgradeBlank.png"));
-        Upgrades.Add(new Upgrade("Two Birds", "Your attacks hit twice, second attack does [X]% and also applies on-hit effects", 10.0f, 0.0f, "", 0, 5, "Assets/Sprites/Upgrades/twobirdsApplied.png"));
-        Upgrades.Add(new Upgrade("Fortified", "Enemy projectiles deal [X]% less damage", 10.0f, 0.0f, "", 0, 5, "Assets/Sprites/Upgrades/upgradeBlank.png"));
-        Upgrades.Add(new Upgrade("Boot Up", "Gain a [X]% speed boost for the first [N] sec of each room", 10.0f, 15.0f, "", 0, 5, "Assets/Sprites/Upgrades/upgradeBlank.png"));
-        Upgrades.Add(new Upgrade("Spice of Life", "Gain [X]% additional damage for each unique combo used this run", 1.0f, 0.0f, "", 0, 5, "Assets/Sprites/Upgrades/upgradeBlank.png"));
-        Upgrades.Add(new Upgrade("git restore", "When entering a new non-shop room, restore [X]% of max health", 10.0f, 0.0f, "", 0, 5, "Assets/Sprites/Upgrades/upgradeBlank.png"));
-        Upgrades.Add(new Upgrade("Bloodthirsty", "Gain [X] health upon killing [N] enemies", 1.0f, 5.0f, "", 0, 5, "Assets/Sprites/Upgrades/upgradeBlank.png"));
-        Upgrades.Add(new Upgrade("Greedy", "Gain [X]% more gold from enemy kills", 5.0f, 0.0f, "", 0, 5, "Assets/Sprites/Upgrades/upgradeBlank.png"));
-        Upgrades.Add(new Upgrade("Thorns", "When you take damage, deal [X]% to the enemy that hit you", 10.0f, 0.0f, "", 0, 5, "Assets/Sprites/Upgrades/upgradeBlank.png"));
+        Upgrades.Add(new Upgrade("Hardware Acceleration", "Increase dash range by [X]%", (float)hardwareAccelUpgradeModifierValue, (float)hardwareAccelUpgradeModifier, "", 0, 5, "Assets/Sprites/Upgrades/upgradeBlank.png"));
+        Upgrades.Add(new Upgrade("Two Birds", "Your attacks hit twice, second attack does [X]% and also applies on-hit effects", (float)twoBirdsUpgradeModifierValue, (float)twoBirdsUpgradeModifier, "", 0, 5, "Assets/Sprites/Upgrades/twobirdsApplied.png"));
+        Upgrades.Add(new Upgrade("Fortified", "Enemy projectiles deal [X]% less damage", (float)fortifiedUpgradeModifierValue, (float)fortifiedUpgradeModifier, "", 0, 5, "Assets/Sprites/Upgrades/upgradeBlank.png"));
+        Upgrades.Add(new Upgrade("Boot Up", "Gain a [X]% speed boost for the first [N] sec of each room", (float)bootUpUpgradeModifierValue, (float)bootUpUpgradeModifier, "", 0, 5, "Assets/Sprites/Upgrades/upgradeBlank.png"));
+        Upgrades.Add(new Upgrade("Spice of Life", "Gain [X]% additional damage for each unique combo used this run", (float)spiceLifeUpgradeModifierValue, (float)spiceLifeUpgradeModifierValue, "", 0, 5, "Assets/Sprites/Upgrades/upgradeBlank.png"));
+        Upgrades.Add(new Upgrade("git restore", "When entering a new non-shop room, restore [X]% of max health", (float)gitRestoreUpgradeModifierValue, (float)gitRestoreUpgradeModifier, "", 0, 5, "Assets/Sprites/Upgrades/upgradeBlank.png"));
+        Upgrades.Add(new Upgrade("Bloodthirsty", "Gain [X] health upon killing [N] enemies", (float)bloodthirstyUpgradeModifierValue, (float)bloodthirstyUpgradeModifier, "", 0, 5, "Assets/Sprites/Upgrades/upgradeBlank.png"));
+        Upgrades.Add(new Upgrade("Greedy", "Gain [X]% more gold from enemy kills", (float)greedyUpgradeModifierValue, (float)greedyUpgradeModifier, "", 0, 5, "Assets/Sprites/Upgrades/upgradeBlank.png"));
+        Upgrades.Add(new Upgrade("Thorns", "When you take damage, deal [X]% to the enemy that hit you", (float)thornsUpgradeModifierValue, (float)thornsUpgradeModifier, "", 0, 5, "Assets/Sprites/Upgrades/upgradeBlank.png"));
 
         // Id should always = index in Upgrades list
         for (int i = 0; i < Upgrades.Count; i++)
@@ -464,7 +483,43 @@ public class Level_manager : MonoBehaviour
             case "Precision":
                 precisionUpgradeModifier += precisionUpgradeModifierValue;
                 upgrade.N = precisionUpgradeModifier;
-                break;                
+                break;
+            case "Hardware Acceleration":
+                hardwareAccelUpgradeModifier += hardwareAccelUpgradeModifierValue;
+                upgrade.N = hardwareAccelUpgradeModifier;
+                break;
+            case "Two Birds":
+                twoBirdsUpgradeModifier += twoBirdsUpgradeModifierValue;
+                upgrade.N = twoBirdsUpgradeModifier;
+                break;
+            case "Fortified":
+                fortifiedUpgradeModifier += fortifiedUpgradeModifierValue;
+                upgrade.N = fortifiedUpgradeModifier;
+                break;
+            case "Boot Up":
+                bootUpUpgradeModifier += bootUpUpgradeModifierValue;
+                upgrade.N = bootUpUpgradeModifier;
+                break;
+            case "Spice of Life":
+                spiceLifeUpgradeModifier += spiceLifeUpgradeModifierValue;
+                upgrade.N = spiceLifeUpgradeModifier;
+                break;
+            case "Git Restore":
+                gitRestoreUpgradeModifier += gitRestoreUpgradeModifierValue;
+                upgrade.N = gitRestoreUpgradeModifier;
+                break;
+            case "Bloodthirsty":
+                bloodthirstyUpgradeModifier += bloodthirstyUpgradeModifierValue;
+                upgrade.N = bloodthirstyUpgradeModifier;
+                break;
+            case "Greedy":
+                greedyUpgradeModifier += greedyUpgradeModifierValue;
+                upgrade.N = greedyUpgradeModifier;
+                break;
+            case "Thorns":
+                thornsUpgradeModifier += thornsUpgradeModifierValue;
+                upgrade.N = thornsUpgradeModifier;
+                break;
             default:
                 Debug.Log("Modifier not found for upgrade with name: \"" + upgrade.Name + "\"");
                 break;
@@ -484,6 +539,42 @@ public class Level_manager : MonoBehaviour
             case "Precision":
                 precisionUpgradeModifier = 0;
                 upgrade.N = precisionUpgradeModifier;
+                break;
+            case "Hardware Acceleration":
+                hardwareAccelUpgradeModifier = 0;
+                upgrade.N = hardwareAccelUpgradeModifier;
+                break;
+            case "Two Birds":
+                twoBirdsUpgradeModifier = 0;
+                upgrade.N = twoBirdsUpgradeModifier;
+                break;
+            case "Fortified":
+                fortifiedUpgradeModifier = 0;
+                upgrade.N = fortifiedUpgradeModifier;
+                break;
+            case "Boot Up":
+                bootUpUpgradeModifier = 0;
+                upgrade.N = bootUpUpgradeModifier;
+                break;
+            case "Spice of Life":
+                spiceLifeUpgradeModifier= 0;
+                upgrade.N = spiceLifeUpgradeModifier;
+                break;
+            case "Git Restore":
+                gitRestoreUpgradeModifier = 0;
+                upgrade.N = gitRestoreUpgradeModifier;
+                break;
+            case "Bloodthirsty":
+                bloodthirstyUpgradeModifier = 0;
+                upgrade.N = bloodthirstyUpgradeModifier;
+                break;
+            case "Greedy":
+                greedyUpgradeModifier = 0;
+                upgrade.N = greedyUpgradeModifier;
+                break;
+            case "Thorns":
+                thornsUpgradeModifier = 0;
+                upgrade.N = thornsUpgradeModifier;
                 break;
             default:
                 Debug.Log("Modifier not found for upgrade with name: \"" + upgrade.Name + "\"");

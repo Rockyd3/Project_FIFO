@@ -101,9 +101,9 @@ public class Level_manager : MonoBehaviour
 
     // Upgrade modifiers indicate the amount of effect an upgrade actually applies during runtime
     public int precisionUpgradeModifier = 0;
-    public int hardwareAccelUpgradeModifier = 0;
+    public int hardwareAccelUpgradeModifier = 1;
     public int twoBirdsUpgradeModifier = 0;
-    public int fortifiedUpgradeModifier = 0;
+    public int fortifiedUpgradeModifier = 1;
     public int bootUpUpgradeModifier = 15;
     public int spiceLifeUpgradeModifier = 0;
     public int gitRestoreUpgradeModifier = 0;

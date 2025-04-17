@@ -10,6 +10,15 @@ public class Deal_damage : MonoBehaviour
     // How much damage is actually dealt by the attack
     private float damage = 0;
 
+    void Start()
+    {
+        // Decrease enemy damage based on fortified upgrade
+        if (gameObject.tag == "Enemy")
+        {
+            damage = baseDamage * Level_manager.instance.fortifiedUpgradeModifier;
+        }
+    }
+
     private void OnTriggerEnter(Collider c)
     {
         if (c.gameObject.GetComponent<Health>() != null)

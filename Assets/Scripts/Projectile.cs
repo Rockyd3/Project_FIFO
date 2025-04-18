@@ -28,18 +28,21 @@ public class Projectile : MonoBehaviour
             health.TakeDamage(damage);
         }
 
-        if(!Indestructable){ Destroy(gameObject); }
+        if (!Indestructable) { Destroy(gameObject); }
     }
-    
-    public void SetLifetime(float new_lifetime){
+
+    public void SetLifetime(float new_lifetime)
+    {
         lifetime = new_lifetime;
     }
 
-    public float GetSpeed(){
+    public float GetSpeed()
+    {
         return speed;
     }
 
-    public void SetAsIndestructable(bool indestructable){
+    public void SetAsIndestructable(bool indestructable)
+    {
         Indestructable = indestructable;
     }
 }

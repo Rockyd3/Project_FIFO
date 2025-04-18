@@ -73,7 +73,7 @@ public class Player_input_manager : MonoBehaviour
         RotatePlayerToMousePoint();
     }
 
-    
+
     void Update()
     {
         // If the player is dashing, continue with fixed velocity, reject new player inputs
@@ -89,7 +89,7 @@ public class Player_input_manager : MonoBehaviour
             AimToMousePoint();
             RotatePlayerToMousePoint();
         }
-        
+
         // If dash input pressed and the dash is not on cooldown, execute the dash
         if (dashInput && !Cooldown_manager.instance.IsDashOnCooldown)
         {
@@ -97,22 +97,24 @@ public class Player_input_manager : MonoBehaviour
         }
 
         // If interact input pressed and an interactable object has been set, execute interaction behavior with it.
-        if (interactInput && interactable) 
+        if (interactInput && interactable)
         {
             Interact(interactable);
         }
-        else if(interactInput){
+        else if (interactInput)
+        {
             // Use e for pattern activation if there's no interactable
             Level_manager.instance.UsePattern();
         }
 
         // If fireProjectile input pressed and the projectile is not on cooldown, fire the projectile
-        if (fireProjectileInput && !Cooldown_manager.instance.IsFireProjectileOnCooldown) 
+        if (fireProjectileInput && !Cooldown_manager.instance.IsFireProjectileOnCooldown)
         {
             FireProjectile();
         }
 
-        if (attackInput && !Cooldown_manager.instance.IsSlashOnCooldown && !Level_manager.instance.IsCurrentlySelectingUpgrade){
+        if (attackInput && !Cooldown_manager.instance.IsSlashOnCooldown && !Level_manager.instance.IsCurrentlySelectingUpgrade)
+        {
             BasicAttack();
         }
     }
@@ -140,7 +142,7 @@ public class Player_input_manager : MonoBehaviour
         moveDirection = up * verticalInput + right * horizontalInput;
 
         // Store the last non-zero moveDirection as the orientation
-        if (!moveDirection.Equals(new Vector3(0, 0, 0))) 
+        if (!moveDirection.Equals(new Vector3(0, 0, 0)))
         {
             orientation = moveDirection.normalized;
         }
@@ -148,7 +150,7 @@ public class Player_input_manager : MonoBehaviour
         // Add the forces in direction specified by moveDirection and speed specified by moveSpeed
         float speed = moveSpeed * (Level_manager.instance.PF.isBoosted ? boostedMult : 1f);
         rb.AddForce(moveDirection.normalized * speed, ForceMode.Force);
-        
+
     }
 
     void StartDash(Vector3 vect)
@@ -162,7 +164,7 @@ public class Player_input_manager : MonoBehaviour
     void Interact(GameObject interactable)
     {
         // If the other GameObject is a ShopItem and the shop is active, buy the item.
-        if (interactable.CompareTag("ShopItem") && interactable.GetComponent<ShopItem>().IsShopActive) 
+        if (interactable.CompareTag("ShopItem") && interactable.GetComponent<ShopItem>().IsShopActive)
         {
             interactable.GetComponent<ShopItem>().buy();
             return;
@@ -176,9 +178,13 @@ public class Player_input_manager : MonoBehaviour
 
     // Instantiates a projectile that moves toward the position defined by aimPoint at the time of firing
     void FireProjectile()
-    { 
+    {
         // Projectile starts at the position of the "nose" of the player
         GameObject projectile = Instantiate(projectilePrefab, new Vector3(transform.Find("Forward").position.x, ProjectilePlaneY, transform.Find("Forward").position.z), transform.rotation);
+
+        // mark as being from the player
+        projectile.GetComponent<Deal_damage>().isDealtByPlayer = true;
+
         projectile.transform.LookAt(aimPoint);
         projectile.layer = 7; // Set to PlayerProjectiles layer, this makes it so it can only hit enemies and obstacles, but not the player.
         Cooldown_manager.instance.UpdateFireProjectileCooldown();
@@ -187,6 +193,7 @@ public class Player_input_manager : MonoBehaviour
     void BasicAttack()
     {
         GameObject Slash = Instantiate(slashPrefab, new Vector3(transform.Find("Forward").position.x, transform.position.y, transform.Find("Forward").position.z), transform.rotation);
+
         Slash.transform.parent = transform;
         Cooldown_manager.instance.UpdateSlashCooldown();
     }
@@ -257,10 +264,10 @@ public class Player_input_manager : MonoBehaviour
     }
 
     public Vector3 AimPoint
-    { 
-        get { return aimPoint; } 
-        set { aimPoint = value; } 
+    {
+        get { return aimPoint; }
+        set { aimPoint = value; }
     }
 
-    
+
 }

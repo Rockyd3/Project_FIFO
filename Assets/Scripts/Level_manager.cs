@@ -10,7 +10,7 @@ public class Level_manager : MonoBehaviour
 {
     public static Level_manager instance;
     public bool isPaused = false;
-    
+
 
     // Most upgrades the player can have at once
     public const int MAX_PLAYER_UPGRADES = 5;
@@ -47,7 +47,7 @@ public class Level_manager : MonoBehaviour
     [System.NonSerialized]
     public List<string> types = new List<string>() { "Earth", "Fire", "Ice", "Wind" };
     [System.NonSerialized]
-    public List<Color> typeColors = new List<Color>() { Color.green, Color.red, Color.blue, Color.cyan};
+    public List<Color> typeColors = new List<Color>() { Color.green, Color.red, Color.blue, Color.cyan };
     static Pattern_UI_manager pat_man;
     [Header("Patterns")]
     [SerializeField]
@@ -62,7 +62,7 @@ public class Level_manager : MonoBehaviour
     //FIXME: Add this to a game_constants file
     [System.NonSerialized]
     public List<List<(int, string, Action)>> Patterns = new List<List<(int, string, Action)>>();
-
+    public HashSet<(int, int)> uniquePatterns = new HashSet<(int, int)>();
 
     //FIXME: Add to game_constants
     [System.NonSerialized]
@@ -164,7 +164,7 @@ public class Level_manager : MonoBehaviour
 
     // Start is called before the first frame update
     void Start()
-    { 
+    {
         // Give self 0 coins to set HUD currency
         GainCoin(0);
         MusicManager = Instantiate(musicManagerPrefab);
@@ -270,26 +270,31 @@ public class Level_manager : MonoBehaviour
         Debug.Log("Dummy key pressed");
     }
 
-    public void GainCoin(int val) {
+    public void GainCoin(int val)
+    {
         Currency += val;
         T_Currency.text = Currency.ToString() + " CHIPS";
     }
 
-    public void SetMaxHealth(float val){
+    public void SetMaxHealth(float val)
+    {
         PlayerMaxHealth = val;
     }
 
-    public void SetHealth(float val){
+    public void SetHealth(float val)
+    {
         PlayerHealth = val;
-        healthBar.SetProgress(PlayerHealth/PlayerMaxHealth);
+        healthBar.SetProgress(PlayerHealth / PlayerMaxHealth);
     }
 
     //---------------------------------Functions for Patterns----------------------------
-    public static void AddPatternUI(GameObject new_pat_man){
+    public static void AddPatternUI(GameObject new_pat_man)
+    {
         pat_man = new_pat_man.GetComponent<Pattern_UI_manager>();
     }
 
-    public void UpdatePattern(int type) {
+    public void UpdatePattern(int type)
+    {
         // Adds a type to the pattern record. Should be called whenever an enemy is killed.
         // This then checks the Pattern Record to see if any Patterns have occurred.
         AddToPattern(type);
@@ -303,7 +308,12 @@ public class Level_manager : MonoBehaviour
         }
 
         currentPattern = success;
-        if (pat_man != null){
+
+        // add this pattern to the hashset to find the # of unique patterns so far
+        uniquePatterns.Add(success);
+
+        if (pat_man != null)
+        {
             pat_man.UpdatePatternName(pat);
             pat_man.UpdateQueueColors(type, subpat.Item1, subpat.Item2);
         }
@@ -314,12 +324,14 @@ public class Level_manager : MonoBehaviour
         Debug.Log($"Add to Pattern {type}");
         //Add the passed type to the pattern_record
         Pattern_record.Add(type);
-        if (Pattern_record.Count > MAX_PATTERN_LEN) {
+        if (Pattern_record.Count > MAX_PATTERN_LEN)
+        {
             Pattern_record.Remove(Pattern_record[0]);
         }
     }
 
-    int TypeToChar(){
+    int TypeToChar()
+    {
         return TypeToChar(Pattern_record.Count, 0);
     }
     int TypeToChar(int start, int end)
@@ -338,26 +350,29 @@ public class Level_manager : MonoBehaviour
                 Translations.Add(t, counter);
                 counter++;
             }
-            ret += (int)(Mathf.Pow(10, start-i) * Translations[t]);
+            ret += (int)(Mathf.Pow(10, start - i) * Translations[t]);
         }
         return ret;
     }
 
-    ((int, int), (int, int)) CheckPatterns(){
-        return CheckPatterns(-1, Pattern_record.Count-1, 0);
+    ((int, int), (int, int)) CheckPatterns()
+    {
+        return CheckPatterns(-1, Pattern_record.Count - 1, 0);
     }
     ((int, int), (int, int)) CheckPatterns(int Seq_in, int start, int end)
     {
-        if(Seq_in == 0){return ((-1, -1), (-1, -1)); }
+        if (Seq_in == 0) { return ((-1, -1), (-1, -1)); }
         int Seq = Seq_in;
-        if(Seq_in == -1){
-            if (start < end){
+        if (Seq_in == -1)
+        {
+            if (start < end)
+            {
                 return ((-1, -1), (-1, -1));
             }
             Seq = TypeToChar(start, end);
         }
 
-        int l = start-end;
+        int l = start - end;
         int s = Pattern_record.Count - 1;
         //Loop through all patterns of size and smaller
         for (int i = 0; i < Patterns[l].Count; i++)
@@ -370,23 +385,26 @@ public class Level_manager : MonoBehaviour
         }
         //Go to smaller pattern if no pattern found in that list.
         //Left
-        ((int, int), (int, int)) left = CheckPatterns(-1, start, end+1);
+        ((int, int), (int, int)) left = CheckPatterns(-1, start, end + 1);
         (int, int) sub_left = left.Item1;
         //Right
-        ((int, int), (int, int)) right = CheckPatterns(-1, start-1, end);
+        ((int, int), (int, int)) right = CheckPatterns(-1, start - 1, end);
         (int, int) sub_right = right.Item1;
-        Debug.Log($"Comparing {left} to {right} :: {sub_left.Item1} > {sub_right.Item1}? {sub_left.Item1>sub_right.Item1}-{sub_left.Item2} > {sub_right.Item2}? {sub_left.Item2>sub_right.Item2}");
+        Debug.Log($"Comparing {left} to {right} :: {sub_left.Item1} > {sub_right.Item1}? {sub_left.Item1 > sub_right.Item1}-{sub_left.Item2} > {sub_right.Item2}? {sub_left.Item2 > sub_right.Item2}");
 
-        if (sub_left.Item1 == sub_right.Item1){
+        if (sub_left.Item1 == sub_right.Item1)
+        {
             return sub_left.Item2 > sub_right.Item2 ? left : right;
         }
         return sub_left.Item1 > sub_right.Item1 ? left : right;
     }
 
-    public void UsePattern(){
+    public void UsePattern()
+    {
         //Use the current Pattern's ability
         string patternName = "";
-        if(currentPattern.Item1 != -1){
+        if (currentPattern.Item1 != -1)
+        {
             //Update the name for debugging and use ability
             patternName = Patterns[currentPattern.Item1][currentPattern.Item2].Item2;
             int l = currentPattern.Item1; //length
@@ -400,16 +418,19 @@ public class Level_manager : MonoBehaviour
         pat_man.ClearQueue();
     }
 
-    void ClearPatternQueue(){
+    void ClearPatternQueue()
+    {
         Pattern_record.RemoveAll(c => true);
     }
 
     //Sets the leftmost and rightmost points of the room - used for pattern func sweeps
-    public void SetLeftPoint(Transform t){
+    public void SetLeftPoint(Transform t)
+    {
         Left_point = t;
     }
-    public void SetRightPoint(Transform t){
-        Right_point = t;        
+    public void SetRightPoint(Transform t)
+    {
+        Right_point = t;
     }
 
     // Pause menu
@@ -530,7 +551,8 @@ public class Level_manager : MonoBehaviour
             GainCoin(-1 * upgrade.Cost);
             return true;
         }
-        else { 
+        else
+        {
             // U ARE TOO BROKE TO AFFORD UPGRADE
             return false;
         }
@@ -566,7 +588,7 @@ public class Level_manager : MonoBehaviour
 
         Destroy(PlayerHeldUpgradeIcons[CurrentlySelectedUpgradeIndex].GetComponent<Upgrade_manager>().upgradeUIIcon);
         Destroy(PlayerHeldUpgradeIcons[CurrentlySelectedUpgradeIndex]);
-        
+
 
         Debug.Log("Replacing upgrade: " + PlayerHeldUpgradeIcons[CurrentlySelectedUpgradeIndex].GetComponent<Upgrade_manager>().upgrade.Name + " (Upgrade slot index " + CurrentlySelectedUpgradeIndex + ")");
         PlayerHeldUpgradeIcons[CurrentlySelectedUpgradeIndex] = upgradeUIIcon;
@@ -577,8 +599,10 @@ public class Level_manager : MonoBehaviour
 
     // Called when upgrades are added to the player held upgrades list, essentially applies the effects of upgrades.
     // POST-MVP: implement more effects
-    void ApplyUpgradeModifiers(Upgrade upgrade) {
-        switch (upgrade.Name) {
+    void ApplyUpgradeModifiers(Upgrade upgrade)
+    {
+        switch (upgrade.Name)
+        {
             case "Precision":
                 precisionUpgradeModifier += precisionUpgradeModifierValue;
                 upgrade.N = precisionUpgradeModifier;
@@ -624,7 +648,7 @@ public class Level_manager : MonoBehaviour
                 break;
         }
         upgrade.UpdateDesc();
-        if (Shop_room_setup.instance != null) 
+        if (Shop_room_setup.instance != null)
         {
             Shop_room_setup.instance.UpdateShopItemLabel(upgrade);
         }
@@ -632,7 +656,8 @@ public class Level_manager : MonoBehaviour
 
     // Called when upgrades are removed from the player held upgrades list, essentially removes the effects of upgrades.
     // POST-MVP: implement more effects
-    void RemoveUpgradeModifiers(Upgrade upgrade) {
+    void RemoveUpgradeModifiers(Upgrade upgrade)
+    {
         switch (upgrade.Name)
         {
             case "Precision":
@@ -656,7 +681,7 @@ public class Level_manager : MonoBehaviour
                 upgrade.N = bootUpUpgradeModifier;
                 break;
             case "Spice of Life":
-                spiceLifeUpgradeModifier= 0;
+                spiceLifeUpgradeModifier = 0;
                 upgrade.N = spiceLifeUpgradeModifier;
                 break;
             case "Git Restore":

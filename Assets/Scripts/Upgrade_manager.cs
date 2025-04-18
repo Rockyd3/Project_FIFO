@@ -95,7 +95,7 @@ public class Upgrade_manager : MonoBehaviour
     private void InstantiateUpgradeShopItem()
     {
         Transform upgradeShopItem;
-        upgradeShopItem = Instantiate(upgradePrefab.transform.GetChild(0), transform.position + new Vector3(0, 0.585f, 0), Quaternion.Euler(new Vector3(45, -135, 0)));
+        upgradeShopItem = Instantiate(upgradePrefab.transform.GetChild(0), transform.position + new Vector3(0, 0.585f, 0), Quaternion.Euler(new Vector3(48.59f, -135, 0)));
 
         upgradeShopItem.transform.SetParent(shopItem);
         upgradeShopItem.gameObject.name = "Upgrade ShopItem Icon " + upgrade.Name;
@@ -199,6 +199,7 @@ public class Upgrade
     private string spriteFilePath;
     private string spriteFilePathVert;
     private string initDesc;
+    private string color;
 
     // "UI" for the upgrade manager to instantiate a UI icon. "ShopItem" for the upgrade manager to instantiate a ShopItem upgrade.
     private string uiOrShopItem;
@@ -213,7 +214,7 @@ public class Upgrade
     //  int id: index of upgrade in game_constants array. Must be unique to this upgrade.
     //  int cost: cost of upgrade
     //  string spriteFilePath: file path of the sprite of this Upgrade.
-    public Upgrade(string name, string desc, float x, float n, string type, int id, int cost, string spriteFilePath, string spriteFilePathVert)
+    public Upgrade(string name, string desc, float x, float n, string type, int id, int cost, string spriteFilePath, string spriteFilePathVert, string color)
     {
         upgrade_name = name;
         this.desc = desc;
@@ -232,6 +233,7 @@ public class Upgrade
         this.desc = this.desc.Replace("[type]", this.type);
 
         this.uiOrShopItem = "ShopItem";
+        this.Color = color;
     }
     public void UpdateDesc() {
         desc = initDesc;
@@ -297,4 +299,5 @@ public class Upgrade
         set { cost = value; }
     }
     public string SpriteFilePathVert { get => spriteFilePathVert; set => spriteFilePathVert = value; }
+    public string Color { get => color; set => color = value; }
 }

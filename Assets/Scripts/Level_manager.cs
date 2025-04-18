@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
+using System.Linq;
 
 public class Level_manager : MonoBehaviour
 {
@@ -93,6 +94,9 @@ public class Level_manager : MonoBehaviour
     // If the player is currently selecting an upgrade to replace/sell
     [System.NonSerialized]
     public bool IsCurrentlySelectingUpgrade = false;
+
+    [System.NonSerialized]
+    public bool IsCurrentlySelectingRecycle = false;
 
     [Header("Upgrades")]
     public int[] PlayerHeldUpgradeIds = new int[MAX_PLAYER_UPGRADES];
@@ -202,16 +206,16 @@ public class Level_manager : MonoBehaviour
         // Add all upgrades to the Upgrade list; move to game_constants when one exists
         // See the constructor for the Upgrade class in 'Upgrade_manager.cs' to find detailed info about parameters.
         // Only one upgrade sprite asset is finished (Precision, as of 02/28), so all others will use the default
-        Upgrades.Add(new Upgrade("Precision", "Deal +[X] extra damage on every hit (currently adding [N] damage)", (float)precisionUpgradeModifierValue, (float)precisionUpgradeModifier, "", 0, 5, "Assets/Sprites/Upgrades/whetstone.png", "Assets/Sprites/Upgrades/whetstoneVert.png"));
-        Upgrades.Add(new Upgrade("Hardware Acceleration", "Increase dash range by [X]%", (float)hardwareAccelUpgradeModifierValue, (float)hardwareAccelUpgradeModifier, "", 0, 5, "Assets/Sprites/Upgrades/hardwareAccel.png", "Assets/Sprites/Upgrades/hardwareAccelVert.png"));
-        Upgrades.Add(new Upgrade("Two Birds", "Your attacks hit twice, second attack does [X]% and also applies on-hit effects", (float)twoBirdsUpgradeModifierValue, (float)twoBirdsUpgradeModifier, "", 0, 5, "Assets/Sprites/Upgrades/twobirds.png", "Assets/Sprites/Upgrades/twobirdsVert.png"));
-        Upgrades.Add(new Upgrade("Fortified", "Enemy projectiles deal [X]% less damage", (float)fortifiedUpgradeModifierValue, (float)fortifiedUpgradeModifier, "", 0, 5, "Assets/Sprites/Upgrades/fortify.png", "Assets/Sprites/Upgrades/fortifyVert.png"));
-        Upgrades.Add(new Upgrade("Boot Up", "Gain a [X]% speed boost for the first [N] sec of each room", (float)bootUpUpgradeModifierValue, (float)bootUpUpgradeModifier, "", 0, 5, "Assets/Sprites/Upgrades/bootUp.png", "Assets/Sprites/Upgrades/bootUpVert.png"));
-        Upgrades.Add(new Upgrade("Spice of Life", "Gain [X]% additional damage for each unique combo used this run", (float)spiceLifeUpgradeModifierValue, (float)spiceLifeUpgradeModifierValue, "", 0, 5, "Assets/Sprites/Upgrades/spiceOfLife.png", "Assets/Sprites/Upgrades/spiceOfLifeVert.png"));
-        Upgrades.Add(new Upgrade("git restore", "When entering a new non-shop room, restore [X]% of max health", (float)gitRestoreUpgradeModifierValue, (float)gitRestoreUpgradeModifier, "", 0, 5, "Assets/Sprites/Upgrades/gitRestore.png", "Assets/Sprites/Upgrades/gitRestoreVert.png"));
-        Upgrades.Add(new Upgrade("Bloodthirsty", "Gain [X] health upon killing [N] enemies", (float)bloodthirstyUpgradeModifierValue, (float)bloodthirstyUpgradeModifier, "", 0, 5, "Assets/Sprites/Upgrades/bloodthirsty.png", "Assets/Sprites/Upgrades/bloodthirstVert.png"));
-        Upgrades.Add(new Upgrade("Greedy", "Gain [X]% more gold from enemy kills", (float)greedyUpgradeModifierValue, (float)greedyUpgradeModifier, "", 0, 5, "Assets/Sprites/Upgrades/chipMagnet.png", "Assets/Sprites/Upgrades/chipMagnetVert.png"));
-        Upgrades.Add(new Upgrade("Thorns", "When you take damage, deal [X]% to the enemy that hit you", (float)thornsUpgradeModifierValue, (float)thornsUpgradeModifier, "", 0, 5, "Assets/Sprites/Upgrades/thorns.png", "Assets/Sprites/Upgrades/thornsVert.png"));
+        Upgrades.Add(new Upgrade("Precision", "Deal +[X] extra damage on every hit (currently adding [N] damage)", (float)precisionUpgradeModifierValue, (float)precisionUpgradeModifier, "", 0, 5, "Assets/Sprites/Upgrades/whetstone.png", "Assets/Sprites/Upgrades/whetstoneVert.png", "red"));
+        Upgrades.Add(new Upgrade("Hardware Acceleration", "Increase dash range by [X]%", (float)hardwareAccelUpgradeModifierValue, (float)hardwareAccelUpgradeModifier, "", 0, 5, "Assets/Sprites/Upgrades/hardwareAccel.png", "Assets/Sprites/Upgrades/hardwareAccelVert.png", "purple"));
+        Upgrades.Add(new Upgrade("Two Birds", "Your attacks hit twice, second attack does [X]% and also applies on-hit effects", (float)twoBirdsUpgradeModifierValue, (float)twoBirdsUpgradeModifier, "", 0, 5, "Assets/Sprites/Upgrades/twobirds.png", "Assets/Sprites/Upgrades/twobirdsVert.png", "red"));
+        Upgrades.Add(new Upgrade("Fortified", "Enemy projectiles deal [X]% less damage", (float)fortifiedUpgradeModifierValue, (float)fortifiedUpgradeModifier, "", 0, 5, "Assets/Sprites/Upgrades/fortify.png", "Assets/Sprites/Upgrades/fortifyVert.png", "green"));
+        Upgrades.Add(new Upgrade("Boot Up", "Gain a [X]% speed boost for the first [N] sec of each room", (float)bootUpUpgradeModifierValue, (float)bootUpUpgradeModifier, "", 0, 5, "Assets/Sprites/Upgrades/bootUp.png", "Assets/Sprites/Upgrades/bootUpVert.png", "purple"));
+        Upgrades.Add(new Upgrade("Spice of Life", "Gain [X]% additional damage for each unique combo used this run", (float)spiceLifeUpgradeModifierValue, (float)spiceLifeUpgradeModifierValue, "", 0, 5, "Assets/Sprites/Upgrades/spiceOfLife.png", "Assets/Sprites/Upgrades/spiceOfLifeVert.png", "red"));
+        Upgrades.Add(new Upgrade("git restore", "When entering a new non-shop room, restore [X]% of max health", (float)gitRestoreUpgradeModifierValue, (float)gitRestoreUpgradeModifier, "", 0, 5, "Assets/Sprites/Upgrades/gitRestore.png", "Assets/Sprites/Upgrades/gitRestoreVert.png", "green"));
+        Upgrades.Add(new Upgrade("Bloodthirsty", "Gain [X] health upon killing [N] enemies", (float)bloodthirstyUpgradeModifierValue, (float)bloodthirstyUpgradeModifier, "", 0, 5, "Assets/Sprites/Upgrades/bloodthirsty.png", "Assets/Sprites/Upgrades/bloodthirstVert.png", "red"));
+        Upgrades.Add(new Upgrade("Greedy", "Gain [X]% more gold from enemy kills", (float)greedyUpgradeModifierValue, (float)greedyUpgradeModifier, "", 0, 5, "Assets/Sprites/Upgrades/chipMagnet.png", "Assets/Sprites/Upgrades/chipMagnetVert.png", "yellow"));
+        Upgrades.Add(new Upgrade("Thorns", "When you take damage, deal [X]% to the enemy that hit you", (float)thornsUpgradeModifierValue, (float)thornsUpgradeModifier, "", 0, 5, "Assets/Sprites/Upgrades/thorns.png", "Assets/Sprites/Upgrades/thornsVert.png", "green"));
 
         // Id should always = index in Upgrades list
         for (int i = 0; i < Upgrades.Count; i++)
@@ -494,10 +498,7 @@ public class Level_manager : MonoBehaviour
         // If the upgrade is already held by the player, then...
         if (Array.IndexOf(PlayerHeldUpgradeIds, upgrade.Id) > -1 && upgrade.Cost <= Currency && !IsCurrentlySelectingUpgrade)
         {
-            // POST MVP FIXME: The player already holds this upgrade, so it won't be added to a new slot.
-            // For now it doesn't do anything when you try to add an upgrade the player already has (i.e. it lets the add attempt go through without actually adding anything)
-            // But we potentially want it to level up the stats provided by the upgrade, so you have some long-term scaling options
-            Debug.Log("Add suceeded, duplicate upgrade");
+            // Increment the upgrade modifier by some specified amount (i.e. "level up" the upgrade)
             ApplyUpgradeModifiers(upgrade);
             GainCoin(-1 * upgrade.Cost);
             return true;
@@ -513,20 +514,33 @@ public class Level_manager : MonoBehaviour
         // Otherwise (if the upgrade is not held by the player AND the max upgrade slots would not be exceeded by adding this upgrade), then...
         else if (upgrade.Cost <= Currency && !IsCurrentlySelectingUpgrade)
         {
-            // Upgrade addition succeeds and adds to the player upgrade list.
-            PlayerHeldUpgrades.Add(upgrade);
+            // Find the first empty slot in the PlayerHeldUpgradeIds array
+            int index = 0;
+            for (int i = 0; i < 5; i++)
+            {
+                if (PlayerHeldUpgradeIds[i] == -1)
+                {
+                    index = i;
+                    break;
+                }
+            }
             ApplyUpgradeModifiers(upgrade);
-            PlayerHeldUpgradeIds[PlayerHeldUpgrades.Count - 1] = upgrade.Id;
+
+            // Put the upgrade in the first empty slots of the PlayerHeldUpgradeIds array and PlayerHeldUpgrades list
+            PlayerHeldUpgradeIds[index] = upgrade.Id;
+            PlayerHeldUpgrades.Add(upgrade);
+
             // UI is updated accordingly
             GameObject upgradeUIIcon = Instantiate(upgradePrefab);
             upgradeUIIcon.SetActive(false);
             upgrade.UIOrShopItem = "UI";
             upgradeUIIcon.GetComponent<Upgrade_manager>().upgrade = upgrade;
-            upgradeUIIcon.GetComponent<Upgrade_manager>().upgradeIndex = PlayerHeldUpgrades.Count - 1;
+            upgradeUIIcon.GetComponent<Upgrade_manager>().upgradeIndex = index;
             upgradeUIIcon.GetComponent<Upgrade_manager>().CreateGameObjects();
             upgradeUIIcon.SetActive(true);
+
+            // UI icon is added to the PlayerHeldUpgradeIcons list
             PlayerHeldUpgradeIcons.Add(upgradeUIIcon);
-            Debug.Log("Add suceeded");
             GainCoin(-1 * upgrade.Cost);
             return true;
         }
@@ -537,7 +551,6 @@ public class Level_manager : MonoBehaviour
     }
     // Functionality: Starts a coroutine defined in Player_input_manager that prompts the player to select and confirm which upgrade they want to swap
     //                Player can leave the radius if they choose not to confirm and this effectively cancels the coroutine.
-    // TODO: call some "sell upgrade" function to return some of the purchase cost of the replaced upgrade to the player?
     // Params:
     //  Upgrade newUpgrade: the upgrade you want to replace the one in the player list with
     //  GameObject shop: the ShopItem that the incoming upgrade is correspondent with
@@ -546,7 +559,14 @@ public class Level_manager : MonoBehaviour
         StartCoroutine(Player_input_manager.instance.SelectAndConfirmReplace(newUpgrade, shop));
     }
 
-    // Called within the coroutine in Player_input_manager (structured this way to keep all player inputs inside that script... it's a bit clunky but it works
+    // Functionality: Starts a coroutine defined in Player_input_manager that prompts the player to select and confirm which upgrade they want to recycle
+    //                Player can leave the radius if they choose not to confirm and this effectively cancels the coroutine.
+    public void RecyclePlayerUpgrade(GameObject trashcan)
+    {
+        StartCoroutine(Player_input_manager.instance.SelectAndConfirmRecycle(trashcan));
+    }
+
+    // Called within the coroutine SelectAndConfirmReplace in Player_input_manager (structured this way to keep all player inputs inside that script... it's a bit clunky but it works)
     // Updates all the necessary lists that track the player's currently held upgrades
     // Updates the UI with the new upgrade's icon and destroys the old upgrade's icon.
     public void SwapOutUpgrade(Upgrade newUpgrade, GameObject shop, Vector2 originalSlotPosition)
@@ -573,6 +593,59 @@ public class Level_manager : MonoBehaviour
         upgradeUIIcon.GetComponent<Upgrade_manager>().upgradeUIIcon.GetComponent<RectTransform>().anchoredPosition = originalSlotPosition;
         GainCoin(-1 * newUpgrade.Cost);
         shop.GetComponent<ShopItem>().destroyChildren();
+    }
+
+    // Called within the coroutine SelectAndConfirmRecycle in Player_input_manager (structured this way to keep all player inputs inside that script... it's a bit clunky but it works)
+    // Updates all lists that track the player's currently held upgrades
+    // Updates the UI with the new upgrade's icon and destroys the old upgrade's icon
+    // Moves all UI icons up to fill the gap left by the old upgrade
+    public void RemoveUpgrade(GameObject trashcan) {
+
+        // Modifiers go poof
+        RemoveUpgradeModifiers(PlayerHeldUpgrades[CurrentlySelectedUpgradeIndex]);
+        Upgrade upgrade = PlayerHeldUpgrades[CurrentlySelectedUpgradeIndex];
+
+        // Trashcan sprite is the same as the recycled upgrade color
+        if (upgrade.Color == "green")
+        {
+            trashcan.transform.Find("Sprite").GetComponent<SpriteRenderer>().sprite = trashcan.GetComponent<Trashcan>().trashcanGreen;
+        }
+        else if (upgrade.Color == "purple")
+        {
+            trashcan.transform.Find("Sprite").GetComponent<SpriteRenderer>().sprite = trashcan.GetComponent<Trashcan>().trashcanPurple;
+        }
+        else if (upgrade.Color == "red") {
+            trashcan.transform.Find("Sprite").GetComponent<SpriteRenderer>().sprite = trashcan.GetComponent<Trashcan>().trashcanRed;
+        }
+        else if (upgrade.Color == "yellow")
+        {
+            trashcan.transform.Find("Sprite").GetComponent<SpriteRenderer>().sprite = trashcan.GetComponent<Trashcan>().trashcanYellow;
+        }
+
+        // Remove the upgrade data
+        PlayerHeldUpgrades.RemoveAt(CurrentlySelectedUpgradeIndex);
+
+        // Destroy the UI gameObject and remove it form the list
+        Destroy(PlayerHeldUpgradeIcons[CurrentlySelectedUpgradeIndex].GetComponent<Upgrade_manager>().upgradeUIIcon);
+        Destroy(PlayerHeldUpgradeIcons[CurrentlySelectedUpgradeIndex]);
+        PlayerHeldUpgradeIcons.RemoveAt(CurrentlySelectedUpgradeIndex);
+
+        // Move all UI icons up to fill the gap left by the old upgrade
+        for (int i = CurrentlySelectedUpgradeIndex; i < PlayerHeldUpgradeIcons.Count; ++i)
+        {
+            PlayerHeldUpgradeIcons[i].GetComponent<Upgrade_manager>().upgradeUIIcon.GetComponent<RectTransform>().anchoredPosition += new Vector2(0, 108);
+            PlayerHeldUpgradeIcons[i].GetComponent<Upgrade_manager>().upgradeIndex = i;
+        }
+
+        // Shift all Ids left by one, and set the last Id to -1
+        PlayerHeldUpgradeIds[4] = -1;
+        for (int i = CurrentlySelectedUpgradeIndex; i < 4; i++)
+        {
+            PlayerHeldUpgradeIds[i] = PlayerHeldUpgradeIds[i + 1];     
+        }
+        
+        // Deactivate the label
+        trashcan.GetComponent<Trashcan>().label.SetActive(false);
     }
 
     // Called when upgrades are added to the player held upgrades list, essentially applies the effects of upgrades.

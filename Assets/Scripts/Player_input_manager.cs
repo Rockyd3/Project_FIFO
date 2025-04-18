@@ -249,6 +249,40 @@ public class Player_input_manager : MonoBehaviour
         levelManager.IsCurrentlySelectingUpgrade = false;
     }
 
+    public IEnumerator SelectAndConfirmRecycle(GameObject trashcan)
+    {
+        Level_manager levelManager = Level_manager.instance;
+        levelManager.IsCurrentlySelectingRecycle = true;
+        yield return null; // Wait one frame so no extraneous inputs can leak through
+        while (true)
+        {
+            int tempIndex = levelManager.CurrentlySelectedUpgradeIndex;
+            if (levelManager.PlayerHeldUpgradeIcons[levelManager.CurrentlySelectedUpgradeIndex] != null)
+            {
+                RectTransform upgradeIconTransform = levelManager.PlayerHeldUpgradeIcons[levelManager.CurrentlySelectedUpgradeIndex].GetComponent<Upgrade_manager>().upgradeUIIcon.GetComponent<RectTransform>();
+                Vector2 originalPosition = upgradeIconTransform.anchoredPosition;
+                upgradeIconTransform.anchoredPosition = new Vector2(upgradeIconTransform.anchoredPosition.x + levelManager.UpgradeIconUnplugOffset, upgradeIconTransform.anchoredPosition.y);
+
+                yield return new WaitUntil(() => interactInput ^ !trashcan.GetComponent<Trashcan>().IsTrashcanActive ^ tempIndex != levelManager.CurrentlySelectedUpgradeIndex);
+                if (interactInput)
+                {
+                    levelManager.RemoveUpgrade(trashcan);
+                    break;
+                }
+                if (!trashcan.GetComponent<Trashcan>().IsTrashcanActive)
+                {
+                    upgradeIconTransform.anchoredPosition = originalPosition;
+                    break;
+                }
+                upgradeIconTransform.anchoredPosition = originalPosition;
+            }
+            else {
+                break;
+            }
+        }
+        levelManager.IsCurrentlySelectingRecycle = false;
+    }
+
     // Getters, Setters
     public GameObject Interactable
     {

@@ -36,7 +36,6 @@ public class UpgradeLabelMainUI : MonoBehaviour
     public Vector3[] upgradeIconCorners = new Vector3[4];
     public void Initialize()
     {
-        Debug.Log("I'm a label and I'm initialized!");
         labelRectTransform = gameObject.GetComponent<RectTransform>();
         labelRectTransform.Find("Panel").GetComponent<RectTransform>().GetWorldCorners(corners);
         tmpText = transform.Find("Panel").gameObject.transform.Find("TMP").gameObject.GetComponent<TextMeshProUGUI>();

@@ -34,7 +34,8 @@ public class EnemySpawning : MonoBehaviour
     void SpawnEnemies(int room){
         List<int> _rank = new List<int>(); //Holds indexes of ranks
         //Setup the list of how many of each rank is needed
-        List<int> Amounts = GetEnemyAmounts(room);
+        int effective_room = (int)(room + 1)/2;
+        List<int> Amounts = GetEnemyAmounts(effective_room);
         for(int r=0; r < EnemyRanks.Count; r++){
             _rank.AddRange(Enumerable.Repeat(r, Amounts[r]));
         }

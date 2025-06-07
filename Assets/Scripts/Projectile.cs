@@ -23,6 +23,7 @@ public class Projectile : MonoBehaviour
     {
         // Optional: use layers to restrict collisions via physics matrix
         Health health = other.GetComponent<Health>();
+        Debug.Log($"HIT! {gameObject.name} hit {other.gameObject.name} with Health: {health != null}");
         if (health != null)
         {
             health.TakeDamage(damage);

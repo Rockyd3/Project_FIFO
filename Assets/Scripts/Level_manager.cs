@@ -52,7 +52,7 @@ public class Level_manager : MonoBehaviour
     //FIXME: Add this list to a game_constants file
     [System.NonSerialized]
     public List<string> types = new List<string>() { "Earth", "Fire", "Ice", "Wind" };
-    [System.NonSerialized]
+    //[System.NonSerialized]
     public List<Color> typeColors = new List<Color>() { Color.green, Color.red, Color.blue, Color.cyan};
     static Pattern_UI_manager pat_man;
     [Header("Patterns")]
@@ -189,13 +189,13 @@ public class Level_manager : MonoBehaviour
         List<(int, string, Action)> Len2_Patterns = new List<(int, string, Action)>() {
             (11, "Pair", PF.StartSpeedBoost) };
         List<(int, string, Action)> Len3_Patterns = new List<(int, string, Action)>() {
-            (121, "Sandwich", Dummy), (111, "Three of a kind", Dummy)
+            (121, "Sandwich", PF.DamageSweep), (111, "Three of a kind", PF.DamageSweep)
         };
         List<(int, string, Action)> Len4_Patterns = new List<(int, string, Action)>() {
             (1221, "Big Sandwich", PF.DamageSweep), (1111, "Four of a kind", PF.DamageSweep), (4321, "Rainbow", PF.DamageSweep), (2211, "Two Pair", PF.DamageSweep), (1321, "Mini Club", PF.DamageSweep)
         };
         List<(int, string, Action)> Len5_Patterns = new List<(int, string, Action)>() {
-            (12121, "Big Mac", Dummy), (11111, "Five of a kind", Dummy), (14321, "Club Sandwich", Dummy), (22211, "Full House", Dummy), (12321, "Double Decker", Dummy), (11211, "Fat Sandwich", Dummy)
+            (12121, "Big Mac", PF.DamageSweep), (11111, "Five of a kind", PF.DamageSweep), (14321, "Club Sandwich", PF.DamageSweep), (22211, "Full House", PF.DamageSweep), (12321, "Double Decker", PF.DamageSweep), (11211, "Fat Sandwich", PF.DamageSweep)
         };
 
         //Add all of the Patterns to the Patterns double list
@@ -252,29 +252,6 @@ public class Level_manager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.P)) // Press 'P' to toggle pause
         {
             TogglePause();
-        }
-
-        if (Input.GetButtonDown("Dummy"))
-        {
-            Dummy();
-        }
-
-        // Key inputs for testing patterns- feel free to delete/ignore
-        if (Input.GetKeyDown("1"))
-        {
-            UpdatePattern(0);
-        }
-        if (Input.GetKeyDown("2"))
-        {
-            UpdatePattern(1);
-        }
-        if (Input.GetKeyDown("3"))
-        {
-            UpdatePattern(2);
-        }
-        if (Input.GetKeyDown("4"))
-        {
-            UpdatePattern(3);
         }
     }
 

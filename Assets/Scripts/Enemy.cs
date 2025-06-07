@@ -15,7 +15,11 @@ public class Enemy : MonoBehaviour
 	[SerializeField]
 	private SpriteRenderer SR;
 
+	[SerializeField]
 	Color[] ElementColors = new Color[] {Color.yellow, Color.red, Color.cyan, Color.green};
+
+	[SerializeField]
+	private Animator anim;
 
     void Start()
 	{
@@ -34,7 +38,16 @@ public class Enemy : MonoBehaviour
 	}
 
 	public void SetElement(int elem){
+		//Sets the element variable and sets animator (if exists) or sprite color
 		element = elem;
-		SR.color = ElementColors[elem];
+		anim = gameObject.GetComponentInChildren<Animator>();
+		if (anim != null){
+			SR.color = Color.white;
+			anim.SetInteger("Element", elem);
+			anim.SetTrigger("SetElement");
+		}
+		else{
+			SR.color = ElementColors[elem];
+		}
 	}
 }

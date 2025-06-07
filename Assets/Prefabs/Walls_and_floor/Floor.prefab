@@ -45,7 +45,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SpawneePrefab: {fileID: 0}
-  time_delay: 1
   SpawnsEnemy: 0
   EnemyElement: 0
   p_Warning: {fileID: 9013366387470994794, guid: afbd1451b6e92324ab01d4f76477c865, type: 3}
@@ -94,7 +93,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SpawneePrefab: {fileID: 0}
-  time_delay: 1
   SpawnsEnemy: 0
   EnemyElement: 0
   p_Warning: {fileID: 9013366387470994794, guid: afbd1451b6e92324ab01d4f76477c865, type: 3}
@@ -143,7 +141,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SpawneePrefab: {fileID: 0}
-  time_delay: 1
   SpawnsEnemy: 0
   EnemyElement: 0
   p_Warning: {fileID: 9013366387470994794, guid: afbd1451b6e92324ab01d4f76477c865, type: 3}
@@ -192,7 +189,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SpawneePrefab: {fileID: 0}
-  time_delay: 1
   SpawnsEnemy: 0
   EnemyElement: 0
   p_Warning: {fileID: 9013366387470994794, guid: afbd1451b6e92324ab01d4f76477c865, type: 3}
@@ -240,6 +236,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3823932157717459653}
   - component: {fileID: 3416493598819352596}
+  - component: {fileID: 3017419585713005430}
   m_Layer: 0
   m_Name: Sprite
   m_TagString: Untagged
@@ -306,7 +303,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: d0116646f63ab0a408ecdfaba8555f48, type: 3}
+  m_Sprite: {fileID: 21300000, guid: b0068b4661a55f54688de08f87f170b3, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -317,6 +314,29 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &3017419585713005430
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3999536204103540762}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07a7213a708ee2c4a91b4c7703f10649, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SR: {fileID: 0}
+  SpriteOptions:
+  - {fileID: 21300000, guid: b0068b4661a55f54688de08f87f170b3, type: 3}
+  - {fileID: 21300000, guid: 6d0e013684641034ca3d71d29381fc35, type: 3}
+  - {fileID: 21300000, guid: e9535a6306860374caa377dff80415e1, type: 3}
+  - {fileID: 21300000, guid: 30f0a016aa5c4b14295926d72f19c5e4, type: 3}
+  - {fileID: 21300000, guid: d4b99926c87f5f44ab6e3c4b48a92d56, type: 3}
+  - {fileID: 21300000, guid: c7316b113eedc174f8a40b446dc61a83, type: 3}
+  - {fileID: 21300000, guid: e1628b53e1a662f4d871c4c2da430636, type: 3}
+  - {fileID: 21300000, guid: de64ec1fc3c8be0498c4ae35e7af4ab2, type: 3}
+  - {fileID: 21300000, guid: 636032bd0cb66aa4d87fefea6fd9b361, type: 3}
 --- !u!1 &4335137233694933001
 GameObject:
   m_ObjectHideFlags: 0
@@ -362,7 +382,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SpawneePrefab: {fileID: 0}
-  time_delay: 1
   SpawnsEnemy: 0
   EnemyElement: 0
   p_Warning: {fileID: 9013366387470994794, guid: afbd1451b6e92324ab01d4f76477c865, type: 3}
@@ -451,7 +470,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SpawneePrefab: {fileID: 0}
-  time_delay: 1
   SpawnsEnemy: 0
   EnemyElement: 0
   p_Warning: {fileID: 9013366387470994794, guid: afbd1451b6e92324ab01d4f76477c865, type: 3}
@@ -500,7 +518,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SpawneePrefab: {fileID: 0}
-  time_delay: 1
   SpawnsEnemy: 0
   EnemyElement: 0
   p_Warning: {fileID: 9013366387470994794, guid: afbd1451b6e92324ab01d4f76477c865, type: 3}
@@ -549,7 +566,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SpawneePrefab: {fileID: 0}
-  time_delay: 1
   SpawnsEnemy: 0
   EnemyElement: 0
   p_Warning: {fileID: 9013366387470994794, guid: afbd1451b6e92324ab01d4f76477c865, type: 3}
@@ -707,7 +723,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SpawneePrefab: {fileID: 0}
-  time_delay: 1
   SpawnsEnemy: 0
   EnemyElement: 0
   p_Warning: {fileID: 9013366387470994794, guid: afbd1451b6e92324ab01d4f76477c865, type: 3}
